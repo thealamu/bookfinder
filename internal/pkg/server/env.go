@@ -1,8 +1,11 @@
 package server
 
+import "net/http"
+
 // ServerEnv defines the environment for a server
 type ServerEnv struct {
-	Port string
+	Port    string
+	Handler http.Handler
 }
 
 // NewServerEnv creates and returns a new server environment
