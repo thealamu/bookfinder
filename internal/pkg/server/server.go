@@ -8,11 +8,8 @@ import (
 )
 
 // StartServer starts the server using the environment
-func StartServer(ctx context.Context, env *ServerEnv) {
+func StartServer(ctx context.Context, env *ServerEnv) error {
 	addr := net.JoinHostPort("localhost", env.Port)
 	fmt.Println("Starting server on", addr)
-	err := http.ListenAndServe(addr, env.Handler)
-	if err != nil {
-		panic(err)
-	}
+	return http.ListenAndServe(addr, env.Handler)
 }
