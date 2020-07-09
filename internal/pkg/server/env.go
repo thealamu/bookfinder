@@ -4,8 +4,9 @@ import "net/http"
 
 // ServerEnv defines the environment for a server
 type ServerEnv struct {
-	Port    string
-	Handler http.Handler
+	Port              string
+	GoogleBooksFinder finder.Finder
+	Handler           http.Handler
 }
 
 // NewServerEnv creates and returns a new server environment
