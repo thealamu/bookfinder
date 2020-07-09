@@ -5,6 +5,7 @@ import (
 	"flag"
 
 	"github.com/gorilla/mux"
+	"github.com/thealamu/bookfinder/internal/pkg/home"
 	"github.com/thealamu/bookfinder/internal/pkg/server"
 )
 
@@ -21,7 +22,9 @@ func main() {
 
 	srvEnv := server.NewServerEnv()
 	srvEnv.Port = port
+
 	router := mux.NewRouter()
+	router.HandleFunc("/", home.HomeHandler)
 	srvEnv.Handler = router
 
 	server.StartServer(ctx, srvEnv)
