@@ -5,6 +5,7 @@ import (
 	"flag"
 
 	"github.com/gorilla/mux"
+	"github.com/thealamu/bookfinder/internal/pkg/find"
 	"github.com/thealamu/bookfinder/internal/pkg/home"
 	"github.com/thealamu/bookfinder/internal/pkg/server"
 )
@@ -25,6 +26,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", home.HomeHandler)
+	router.Handle("/api/find", find.NewFindHandler())
 	srvEnv.Handler = router
 
 	server.StartServer(ctx, srvEnv)
