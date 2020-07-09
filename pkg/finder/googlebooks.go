@@ -1,6 +1,8 @@
 package finder
 
-import "github.com/thealamu/bookfinder/internal/pkg/bookdetails"
+import (
+	"github.com/thealamu/bookfinder/internal/pkg/bookdetails"
+)
 
 type GoogleBooks struct{}
 

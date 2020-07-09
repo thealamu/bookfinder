@@ -2,16 +2,19 @@
 package find
 
 import (
-	"fmt"
 	"net/http"
+
+	"github.com/thealamu/bookfinder/internal/pkg/server"
 )
 
-type FindHandler struct{}
+type FindHandler struct {
+	env *server.ServerEnv
+}
 
-func NewFindHandler() FindHandler {
-	return FindHandler{}
+func NewFindHandler(srvEnv *server.ServerEnv) FindHandler {
+	return FindHandler{env: srvEnv}
 }
 
 func (f FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Search here!")
+	f.env.GoogleBooksFinder.Find("Stuff")
 }

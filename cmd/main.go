@@ -26,7 +26,7 @@ func main() {
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", home.HomeHandler)
-	router.Handle("/api/find", find.NewFindHandler())
+	router.Handle("/api/find", find.NewFindHandler(srvEnv))
 	srvEnv.Handler = router
 
 	server.StartServer(ctx, srvEnv)
