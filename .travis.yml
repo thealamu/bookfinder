@@ -1,0 +1,12 @@
+language: go
+
+branches:
+  only:
+    - master
+    - dev
+
+before_install:
+  - go get -t -v ./...
+
+script:
+  - go test ./... 
