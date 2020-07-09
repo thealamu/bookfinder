@@ -1,29 +1,22 @@
 package finder
 
 import (
-	"errors"
 	"fmt"
 
 	"github.com/thealamu/bookfinder/internal/pkg/bookdetails"
 )
 
-const EndpointFmt = "https://www.googleapis.com/books/v1/volumes?q=%s&key=%s"
+const EndpointFmt = "https://www.googleapis.com/books/v1/volumes?q=%s"
 
-type GoogleBooks struct {
-	apiKey string
-}
+type GoogleBooks struct{}
 
-func NewGoogleBooksFinder(key string) (*GoogleBooks, error) {
-	if key == "" {
-		fmt.Println("finder.NewGoogleBooksFinder", "No API key")
-		return nil, errors.New("No Google Books API key")
-	}
-
-	return &GoogleBooks{apiKey: key}, nil
+func NewGoogleBooksFinder() *GoogleBooks {
+	return &GoogleBooks{}
 }
 
 func (g *GoogleBooks) Find(s string) (*bookdetails.BookDetails, error) {
-	endpointUri := fmt.Sprintf(EndpointFmt, s, g.apiKey)
+	endpointUri := fmt.Sprintf(EndpointFmt, s)
+	fmt.Println(endpointUri)
 
 	return nil, nil
 }
