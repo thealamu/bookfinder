@@ -1,6 +1,10 @@
 package server
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/thealamu/bookfinder/pkg/finder"
+)
 
 // ServerEnv defines the environment for a server
 type ServerEnv struct {

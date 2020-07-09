@@ -8,6 +8,7 @@ import (
 	"github.com/thealamu/bookfinder/internal/pkg/find"
 	"github.com/thealamu/bookfinder/internal/pkg/home"
 	"github.com/thealamu/bookfinder/internal/pkg/server"
+	"github.com/thealamu/bookfinder/internal/pkg/setup"
 )
 
 var port string
@@ -21,8 +22,7 @@ func main() {
 
 	flag.Parse()
 
-	srvEnv := server.NewServerEnv()
-	srvEnv.Port = port
+	srvEnv := setup.ServerEnv(port)
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", home.HomeHandler)

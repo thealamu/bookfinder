@@ -8,4 +8,6 @@ func NewGoogleBooksFinder() *GoogleBooks {
 	return &GoogleBooks{}
 }
 
-func (g *GoogleBooks) Find(s string) *bookdetails.BookDetails {}
+func (g *GoogleBooks) Find(s string) *bookdetails.BookDetails {
+	return nil
+}
