@@ -17,9 +17,19 @@ func NewFindHandler(srvEnv *server.ServerEnv) FindHandler {
 }
 
 func (f FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	bookdetails, err := f.env.GoogleBooksFinder.Find("Stuff")
+	if err := r.ParseForm(); err != nil {
+		fmt.Println("find.ServeHTTP", err)
+	}
+	q := r.Form.Get("q")
+	if q == "" {
+		fmt.Println("find.ServeHTTP", "Error, no search filter")
+		return
+	}
+
+	booksList, err := f.env.GoogleBooksFinder.Find(q)
 	if err != nil {
 		panic(err)
 	}
-	fmt.Println(bookdetails)
+
+	fmt.Fprintln(w, booksList)
 }
