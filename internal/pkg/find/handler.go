@@ -2,6 +2,7 @@
 package find
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/thealamu/bookfinder/internal/pkg/server"
@@ -16,5 +17,9 @@ func NewFindHandler(srvEnv *server.ServerEnv) FindHandler {
 }
 
 func (f FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	f.env.GoogleBooksFinder.Find("Stuff")
+	bookdetails, err := f.env.GoogleBooksFinder.Find("Stuff")
+	if err != nil {
+		panic(err)
+	}
+	fmt.Println(bookdetails)
 }
