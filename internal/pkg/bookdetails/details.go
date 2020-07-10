@@ -2,6 +2,10 @@
 package bookdetails
 
 type BookDetails struct {
-	Title  string
-	Author string
+	ID       string
+	Title    string
+	Subtitle string
+	Authors  []string
+	Desc     string
+	Link     string
 }
