@@ -1,11 +1,16 @@
 package server
 
-import "net/http"
+import (
+	"net/http"
+
+	"github.com/thealamu/bookfinder/pkg/finder"
+)
 
 // ServerEnv defines the environment for a server
 type ServerEnv struct {
-	Port    string
-	Handler http.Handler
+	Port              string
+	GoogleBooksFinder finder.Finder
+	Handler           http.Handler
 }
 
 // NewServerEnv creates and returns a new server environment

@@ -4,14 +4,32 @@ package find
 import (
 	"fmt"
 	"net/http"
+
+	"github.com/thealamu/bookfinder/internal/pkg/server"
 )
 
-type FindHandler struct{}
+type FindHandler struct {
+	env *server.ServerEnv
+}
 
-func NewFindHandler() FindHandler {
-	return FindHandler{}
+func NewFindHandler(srvEnv *server.ServerEnv) FindHandler {
+	return FindHandler{env: srvEnv}
 }
 
 func (f FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	fmt.Fprintln(w, "Search here!")
+	if err := r.ParseForm(); err != nil {
+		fmt.Println("find.ServeHTTP", err)
+	}
+	q := r.Form.Get("q")
+	if q == "" {
+		fmt.Println("find.ServeHTTP", "Error, no search filter")
+		return
+	}
+
+	booksList, err := f.env.GoogleBooksFinder.Find(q)
+	if err != nil {
+		panic(err)
+	}
+
+	fmt.Fprintln(w, booksList)
 }

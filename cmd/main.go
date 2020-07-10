@@ -3,11 +3,13 @@ package main
 import (
 	"context"
 	"flag"
+	"fmt"
 
 	"github.com/gorilla/mux"
 	"github.com/thealamu/bookfinder/internal/pkg/find"
 	"github.com/thealamu/bookfinder/internal/pkg/home"
 	"github.com/thealamu/bookfinder/internal/pkg/server"
+	"github.com/thealamu/bookfinder/internal/pkg/setup"
 )
 
 var port string
@@ -21,13 +23,19 @@ func main() {
 
 	flag.Parse()
 
-	srvEnv := server.NewServerEnv()
-	srvEnv.Port = port
+	srvEnv, err := setup.ServerEnv(port)
+	if err != nil {
+		fmt.Println("main.Main", "Could not setup server env")
+		panic(err)
+	}
 
 	router := mux.NewRouter()
 	router.HandleFunc("/", home.HomeHandler)
-	router.Handle("/api/find", find.NewFindHandler())
+	router.Handle("/api/find", find.NewFindHandler(srvEnv))
 	srvEnv.Handler = router
 
-	server.StartServer(ctx, srvEnv)
+	if err := server.StartServer(ctx, srvEnv); err != nil {
+		fmt.Println("main.Main", "Could not start server")
+		panic(err)
+	}
 }
