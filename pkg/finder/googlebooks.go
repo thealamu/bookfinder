@@ -36,7 +36,7 @@ func NewGoogleBooksFinder() *GoogleBooks {
 
 func (g *GoogleBooks) Find(s string) ([]bookdetails.BookDetails, error) {
 	endpointUri := fmt.Sprintf(EndpointFmt, s)
-	fmt.Println(endpointUri)
+	fmt.Println("googlebooks.Find", "GET", endpointUri)
 
 	// Go get results from googleapis
 	r, err := http.Get(endpointUri)
