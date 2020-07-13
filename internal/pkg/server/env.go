@@ -10,6 +10,7 @@ import (
 type ServerEnv struct {
 	Port              string
 	GoogleBooksFinder finder.Finder
+	GoodReadsFinder   finder.Finder
 	Handler           http.Handler
 }
 
