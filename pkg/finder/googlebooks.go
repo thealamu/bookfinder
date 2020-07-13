@@ -34,14 +34,15 @@ func NewGoogleBooksFinder() *GoogleBooks {
 	return &GoogleBooks{}
 }
 
-func (g *GoogleBooks) Find(s string) ([]bookdetails.BookDetails, error) {
+func (g *GoogleBooks) Find(s string, c chan bookdetails.BookDetails) {
 	endpointUri := fmt.Sprintf(EndpointFmt, s)
 	fmt.Println("googlebooks.Find", "GET", endpointUri)
 
 	// Go get results from googleapis
 	r, err := http.Get(endpointUri)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return
 	}
 	defer r.Body.Close()
 
@@ -49,11 +50,11 @@ func (g *GoogleBooks) Find(s string) ([]bookdetails.BookDetails, error) {
 	dec := json.NewDecoder(r.Body)
 	err = dec.Decode(&res)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return
 	}
 
-	//return the result
-	var results []bookdetails.BookDetails
+	//stream the result
 	for i := 0; i < len(res.Items); i++ {
 		bd := bookdetails.BookDetails{}
 		item := res.Items[i]
@@ -66,8 +67,6 @@ func (g *GoogleBooks) Find(s string) ([]bookdetails.BookDetails, error) {
 		bd.Desc = vInfo.Description
 		bd.Link = vInfo.ReadLink
 
-		results = append(results, bd)
+		c <- bd
 	}
-
-	return results, nil
 }

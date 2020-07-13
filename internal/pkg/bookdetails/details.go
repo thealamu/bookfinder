@@ -2,10 +2,10 @@
 package bookdetails
 
 type BookDetails struct {
-	ID       string
-	Title    string
-	Subtitle string
-	Authors  []string
-	Desc     string
-	Link     string
+	ID       string   `json:"id"`
+	Title    string   `json:"title"`
+	Subtitle string   `json:"subtitle"`
+	Authors  []string `json:"authors"`
+	Desc     string   `json:"desc"`
+	Link     string   `json:"link"`
 }
