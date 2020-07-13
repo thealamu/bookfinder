@@ -26,7 +26,7 @@ func (f FindHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	booksList, err := f.env.GoogleBooksFinder.Find(q)
+	booksList, err := f.env.GoodReadsFinder.Find(q)
 	if err != nil {
 		panic(err)
 	}
