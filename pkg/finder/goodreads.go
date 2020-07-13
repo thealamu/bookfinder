@@ -47,23 +47,26 @@ func NewGoodReadsFinder(apikey string) *GoodReads {
 	return &GoodReads{key: apikey}
 }
 
-func (g *GoodReads) Find(s string) ([]bookdetails.BookDetails, error) {
+func (g *GoodReads) Find(s string, c chan bookdetails.BookDetails) {
 	var endpointUri = fmt.Sprintf(endpointFmt, g.key, s)
 	fmt.Println("goodreads.Find", "GET", endpointUri)
 	res, err := http.Get(endpointUri)
 	if err != nil {
-		return nil, err
+		fmt.Println(err)
+		return
 	}
 	defer res.Body.Close()
 
 	dec := xml.NewDecoder(res.Body)
 	var data goodreadsResponse
 	err = dec.Decode(&data)
+	if err != nil {
+		fmt.Println(err)
+		return
+	}
 
-	// Return bookdetails
-	var bookdeets []bookdetails.BookDetails
+	// Stream bookdetails
 	works := data.Search.Results.Work
-
 	for _, w := range works {
 		var bookd bookdetails.BookDetails
 		bookd.ID = w.BestBook.ID
@@ -71,8 +74,6 @@ func (g *GoodReads) Find(s string) ([]bookdetails.BookDetails, error) {
 		bookd.Authors = []string{w.BestBook.Author.Name}
 		bookd.Link = fmt.Sprintf(bookLinkFmt, w.BestBook.ID)
 
-		bookdeets = append(bookdeets, bookd)
+		c <- bookd
 	}
-
-	return bookdeets, nil
 }
